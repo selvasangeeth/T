@@ -1,13 +1,14 @@
-import React from "react";
-
-
+import React from 'react'
+import {Link} from "react-router-dom"
+import Nav from "./Nav"
 const Home = () => {
-  return(
-  <div>
-  <div >
+  return (
+    <div>
+      <Nav />
+      <Link to = "/addtask">Add Task</Link>
+      <h3>View Completed Task</h3>
+    </div>
+  )
+}
 
-  </div>
-  </div>
-)};
-
-export default Home;
+export default Home
