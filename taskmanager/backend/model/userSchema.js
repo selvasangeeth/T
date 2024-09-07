@@ -10,15 +10,17 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  tasks:[{
-    type:String,
-    // required:true
-  }],
-  dated:{
-    type:Date,
-    default:Date.now
- }
- });
+  tasks: [
+    {
+      type: String,
+      // required:true
+    },
+  ],
+  dated: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
 const userDetails = mongoose.model("User", userSchema);
 module.exports = userDetails;
