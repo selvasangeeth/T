@@ -3,15 +3,17 @@ html, body {
     padding: 0;
 }
 .header {
-    background-color: darkslategrey;
+    background-color: rgba(98, 136, 180, 0.856);
     height: 50px;
     margin-top: 0;
     padding: 0;
-
 }
 .header h2 {
     margin: 0;
     padding: 10px;
-    color: antiquewhite;
+   color: aliceblue;
+    font-family: "Matemasie", sans-serif;
+  font-weight: 400;
+  font-style: normal;
    
 }

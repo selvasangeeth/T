@@ -2,6 +2,10 @@ import React from 'react'
 import Nav from './Nav'
 import { useState } from 'react';
 import axios from "../axios/axios";
+import { toast,ToastContainer } from "react-toastify";
+import 'react-toastify/ReactToastify.css'
+import Style from "../Styles/Register.module.css"
+import { Link } from 'react-router-dom';
 const Register = () => {
     const [UserName, setUserName] = useState('');
     const [Password, setPassword] = useState('');
@@ -10,7 +14,7 @@ const Register = () => {
         e.preventDefault();
         try{
         const response = await axios.post
-        ("http://localhost:8000/register",
+        ("/register",
             {
                 UserName: UserName,
                 Password: Password
@@ -21,8 +25,11 @@ const Register = () => {
                 }
             }
         )
+        toast(response.data.msg);
         const data = response.data;
         console.log(data);   
+        setUserName('');
+        setPassword('');
  }
         catch(error){
             console.log(error);
@@ -32,26 +39,36 @@ const Register = () => {
 
   return (
     <div>
+        <div className={Style.backgr}>
         <Nav/>
+        <div className={Style.registerall}>
+        <div className={Style.conten}>
         <form onSubmit={handleSubmit}>
-        <h1>Register Page</h1>
-        <p>Enter the UserName</p>
-        <input type='text'
+        <h1 className={Style.head}>Register</h1>
+        <p>UserName</p>
+        <input className={Style.textbox}
+        type='text'
         placeholder='UserName'
         value={UserName}
         onChange={(e)=>setUserName(e.target.value)}
         />
-        <p>Enter the Password</p>
-        <input type='password'
+        <p>Password</p>
+        <input className={Style.textbox}
+        type='password'
         placeholder='Password'
         value = {Password}
         onChange={(e)=>setPassword(e.target.value)}
         />
         <br />
         <br/>
-        <button>Submit</button>
+        <button className={Style.button}>Submit</button>
+        <br/>
+        <Link to="/" className={Style.login}>Login</Link>
         </form>
-        
+        <ToastContainer/>
+    </div>
+    </div>
+    </div>
     </div>
   )
 }

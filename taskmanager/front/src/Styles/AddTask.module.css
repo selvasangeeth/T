@@ -1,0 +1,46 @@
+.textbox{
+    margin-top: 5px;
+    width: 300px;
+    height: 15px;
+    padding: 5px;
+    border: 1px solid grey;
+    border-radius: 5px;
+   
+}
+.button{
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: darkblue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 27px;
+}
+.button:hover{
+    background-color: rgba(23, 143, 12, 0.808);
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+.all{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.background{
+    background-color: rgb(158, 185, 221);
+    height: 100vh;
+}
+.taskDetails{
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: darkblue;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 60px;
+  
+}

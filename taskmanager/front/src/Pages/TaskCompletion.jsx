@@ -2,10 +2,14 @@ import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "../axios/axios";
+import Nav from "../Pages/Nav"
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/ReactToastify.css";
+
 
 const TaskCompletion = () => {
   const { UserName, task, index } = useLocation().state || {};
-  const [tas, setTas] = useState([]);
+  const [tas, setTas] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,7 +26,7 @@ const TaskCompletion = () => {
     };
 
     fetchData();
-  }, [UserName]);
+  }, [index,task]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,8 +43,7 @@ const TaskCompletion = () => {
       }
     };
     fetchData();
-  }, []); // Correct dependency
-
+  }, []); 
   const handleDelete = async (task, index) => {
     try {
       const response = await axios.delete("/deletetask2", {
@@ -50,14 +53,17 @@ const TaskCompletion = () => {
           index: index,
         },
       });
+      toast("Task deleted successfully")
       console.log(response.data);
-      window.location.reload();
+      setTas((prevTasks) => prevTasks.filter((_,i) => i !== index)); // Update state without reload
     } catch (err) {
       console.log(err);
     }
   };
+  
   return (
     <div>
+        <Nav/>
       <ol>
         {Array.isArray(tas) ? (
           tas.map((task, index) => (
@@ -70,6 +76,7 @@ const TaskCompletion = () => {
           <p>No tasks available</p>
         )}
       </ol>
+      <ToastContainer/>
     </div>
   );
 };

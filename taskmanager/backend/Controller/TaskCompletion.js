@@ -3,27 +3,29 @@ const tasksc = require("../model/TaskCompletion");
 
 const getTaskCompletion = expressAsyncHandler(async (req, res) => {
   const { UserName, task } = req.body;
+  console.log(req.body);
   const user = await tasksc.findOne({ UserName: UserName });
-  if (user.task.includes(task)) {
-    return res.status(200).json({ message: "Task already completed" });
-  } else if (user) {
-    const add = user.task.push(task);
-    await user.save();
-    if (add) {
-      res
-        .status(200)
-        .json({ message: "Task completed successfully", data: add });
+  if (user) {
+    const tasksSet = new Set(user.task);
+
+    if (tasksSet.has(task)) {
+      return res.status(200).json({ message: "Task already completed" });
     } else {
-      res.status(200).json({ message: "Error completing task" });
+      tasksSet.add(task); // Add the new task to the Set
+      user.task = [...tasksSet]; // Convert Set back to an array
+      await user.save();
+      return res  
+        .status(200)
+        .json({ message: "Task completed successfully", data: user.task });
     }
   } else {
-    const creation = await tasksc.create({ UserName, task });
+    const creation = await tasksc.create({ UserName: UserName, task: [task] });
     if (creation) {
-      res
+      return res
         .status(201)
         .json({ message: "Task completed successfully", data: creation });
     } else {
-      res.status(400).json({ message: "Error completing task" });
+      return res.status(400).json({ message: "Error completing task" });
     }
   }
 });

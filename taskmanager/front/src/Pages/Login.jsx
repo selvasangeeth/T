@@ -25,7 +25,7 @@ const Login = () => {
         }
       );
 
-      if(response.data.msg=== "LoginSuccess") {
+      if(response.data.msg === "LoginSuccess") {
         nav("/addtask",{state:{UserName}});
       } else {  
        toast(response.data.msg);
@@ -37,12 +37,14 @@ const Login = () => {
 
   return (
     <div>
+      <div className={Style.backgr}>
       <Nav />
       <div className={Style.loginall}>
+        <div className={Style.conten}>
         <form onSubmit={handleSubmit}>
-          <h2>Login</h2>
+          <h2 className={Style.head}>Login</h2>
           <p>UserName</p>
-          <input
+          <input className={Style.textbox}
             type="text"
             placeholder="Enter the Username"
             value={UserName}
@@ -50,7 +52,7 @@ const Login = () => {
           />
           <br />
           <p>Password</p>
-          <input
+          <input className={Style.textbox}
             type="password"
             placeholder="Enter the Password"
             value={Password}
@@ -58,12 +60,17 @@ const Login = () => {
           />
           <br />
           <br />
-          <button>SUBMIT</button>
+          <button className={Style.button}>SUBMIT</button>
           <br />
           <br />
-          <Link to="/register">Register</Link>
+          <Link to="/register" className={Style.register}>Register</Link>
         </form>
+        </div>
+        <footer>
+
+        </footer>
         <ToastContainer />
+      </div>
       </div>
     </div>
   );

@@ -8,6 +8,9 @@ const getAddTask = expressAsyncHandler(async (req, res) => {
   if (!userfind) {
     return res.status(201).json("User not found");
   }
+  if(tasks == ""){
+    return res.status(200).json({msg :"Task field should not be empty"});
+  }
   if (typeof userfind.tasks == "string") {
     userfind.tasks = [userfind.tasks];
   }

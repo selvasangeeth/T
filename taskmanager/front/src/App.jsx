@@ -4,9 +4,10 @@ import Login from "./Pages/Login";
 import Nav from "./Pages/Nav"
 import Register from "./Pages/Register";
 import Home from "./Pages/Home"
-import AddTask from "./Pages/AddTask";
+import TaskDetails from "./Pages/TaskDetails";
 import Updatetask from "./Pages/TaskUpdate"
 import TaskCompletion from "./Pages/TaskCompletion"
+import AddTaskBack from "./Pages/AddTaskBack";
 function App() {
   return (
     <div>
@@ -16,9 +17,10 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route path ="/nav" element={<Nav/>}/>
           <Route path ="/home" element={<Home/>}/>
-          <Route path ="/addtask" element={<AddTask />}/> 
+          <Route path ="/addtask" element={<TaskDetails />}/> 
           <Route path ="/updatetask" element={<Updatetask/>}/>
           <Route path ="/taskcompletion" element={<TaskCompletion/>}/>
+          <Route path ="/addtask1" element = {<AddTaskBack/>}/>
         </Routes>
       </BrowserRouter>
     </div>
