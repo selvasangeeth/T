@@ -4,43 +4,57 @@ body {
   padding: 0;
   height: 100%;
 }
-.welcomeuser {
+.welcomeContainer {
   background-color: aliceblue;
-  padding: 4px;
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
+  padding: 4px;
   height: 90px;
-  padding-left: 10px;
+}
+
+.welcomeText {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0px;
 }
 .button {
   margin-top: 21px;
-  padding: 10px 20px;
+  padding: 5px 20px;
   margin-right: 10px;
-  height: 40px;
+  width: 150px;
+  height: 50px;
   border-radius: 5px;
   background-color: darkblue;
   color: white;
   border: none;
   cursor: pointer;
 }
+
+
+.buttonall {
+  display: flex;
+  gap: 10px;
+}
+
 .button:hover {
   background-color: rgba(22, 136, 136, 0.918);
   color: white;
   transform: scale(1.1);
   transition: transform 0.3s ease;
 }
+
 .background {
+  
   background-color: rgb(227, 241, 241);
   min-height: 100vh;
 }
 .greet {
   font-size: 15px;
   margin-left: 200px;
-  margin-top: 1px;
+  margin-top: -15px;
 }
 .taskItem {
-  background-color: #f0f0f0;
+  background-color: #f0f0f0ea;
   margin-bottom: 10px;
   padding: 10px;
   border-radius: 5px;
@@ -83,4 +97,19 @@ body {
   background-color: rgba(23, 143, 12, 0.808);
   transform: scale(1.1);
   transition: transform 0.3s ease;
+}
+
+.taskD {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.taskName {
+  flex: 1;
+}
+
+.dated {
+  margin-right: 50%; 
+  white-space: nowrap; 
 }

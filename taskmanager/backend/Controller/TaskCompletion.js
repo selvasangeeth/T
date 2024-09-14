@@ -2,37 +2,40 @@ const expressAsyncHandler = require("express-async-handler");
 const tasksc = require("../model/TaskCompletion");
 
 const getTaskCompletion = expressAsyncHandler(async (req, res) => {
-  const { UserName, task } = req.body;
-  console.log(req.body);
-  const user = await tasksc.findOne({ UserName: UserName });
-  if (user) {
-    const tasksSet = new Set(user.task);
+  const { task, UserName } = req.body;
+  console.log("hello");
+  console.log(task);
+  const userFind = tasksc.findOne({ UserName });
 
-    if (tasksSet.has(task)) {
-      return res.status(200).json({ message: "Task already completed" });
-    } else {
-      tasksSet.add(task); // Add the new task to the Set
-      user.task = [...tasksSet]; // Convert Set back to an array
-      await user.save();
-      return res  
-        .status(200)
-        .json({ message: "Task completed successfully", data: user.task });
-    }
-  } else {
-    const creation = await tasksc.create({ UserName: UserName, task: [task] });
-    if (creation) {
-      return res
-        .status(201)
-        .json({ message: "Task completed successfully", data: creation });
-    } else {
-      return res.status(400).json({ message: "Error completing task" });
+  const formattedDate = new Date().toISOString().split("T")[0];
+
+  if (!userFind) {
+    res.status(201).json({ msg: "User not found !!" });
+  }
+  // const taskset = new Set(userFind.data.inputTasks);
+  // if(taskset.has(task)){
+  //   res.status(201).json({msg:"Task already Completed !!"});
+  // }
+  else {
+    const newTask = {
+      data: {
+        inputTasks: task,
+        date: formattedDate,
+      },
+    };
+    try {
+      await tasksc.updateOne({ UserName }, { $push: { task: newTask } });
+
+      res.status(200).json({ msg: "Congrats Task completed successfully!!" });
+    } catch (err) {
+      res.status(500).json({ msg: "Error in adding task" });
     }
   }
 });
 
 const getCompletedTasks = expressAsyncHandler(async (req, res) => {
   const { UserName } = req.query;
-  console.log(UserName);
+  // console.log(UserName);
   const user = await tasksc.findOne({ UserName: UserName });
   if (!user) {
     return res.status(201).json({ message: "User not found" });
@@ -49,7 +52,7 @@ const getremovedTask = expressAsyncHandler(async (req, res) => {
   } else {
     user.task.splice(index, 1);
     await user.save();
-    res.status(200).json(user.tasks);
+    res.status(200).json(user.task);
   }
 });
 

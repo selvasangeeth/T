@@ -9,19 +9,21 @@ import Nav from "./Nav";
 import { useNavigate } from "react-router-dom";
 
 
+//add task
 const AddTaskBack = () => {
   const { UserName } = useLocation().state || {};
   const [inputTasks, setInputTasks] = useState("");
+  const [date, setDate] = useState("");
   const nav = useNavigate();
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newTask = [inputTasks];
     try {
       const response = await axios.post("/addtask", {
-        tasks: newTask,
         UserName: UserName,
+        data: { inputTasks, date },
       });
       setInputTasks("");
+      setDate("");
       if (response.data.msg == "Task field should not be empty") {
         toast(response.data.msg);
       }
@@ -33,29 +35,47 @@ const AddTaskBack = () => {
       console.log(err);
     }
   };
+
+  // nav to details page
   const handleDetails = () => {
     nav("/addtask", { state: { UserName } });
   };
   return (
     <>
-    <div className={Style.background}> 
-        <Nav/>
+      <div className={Style.background}>
+        <Nav />
         <div className={Style.all}>
-      <h1 className={Style.head}>Add more do more..!!</h1>
-      <form onSubmit={handleSubmit}>
-        <input className={Style.textbox}
-          type="text"
-          placeholder="Enter task"
-          value={inputTasks}
-          onChange={(e) => setInputTasks(e.target.value)}
-        />
-        <br/>
-        <button className={Style.button} type="submit">Add Task</button>
-        <button className={Style.taskDetails} type="button" onClick={handleDetails}>Task Details</button>
-      </form>
-      <ToastContainer />
-    </div>
-    </div>
+          <h1 className={Style.head}>Add more do more..!!</h1>
+          <form onSubmit={handleSubmit}>
+            <input
+              className={Style.textbox}
+              type="text"
+              placeholder="Enter task"
+              value={inputTasks}
+              onChange={(e) => setInputTasks(e.target.value)}
+            />
+            <br />
+            <input
+              type="date"
+              className={Style.textbox}
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
+            <br />
+            <button className={Style.button} type="submit">
+              Add Task
+            </button>
+            <button
+              className={Style.taskDetails}
+              type="button"
+              onClick={handleDetails}
+            >
+              Task Details
+            </button>
+          </form>
+          <ToastContainer />
+        </div>
+      </div>
     </>
   );
 };

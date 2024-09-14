@@ -26,6 +26,7 @@ const Login = () => {
       );
 
       if(response.data.msg === "LoginSuccess") {
+        localStorage.setItem("isLoginSuccess", true);
         nav("/addtask",{state:{UserName}});
       } else {  
        toast(response.data.msg);

@@ -1,0 +1,70 @@
+.background{
+    background-color: rgb(227, 241, 241);
+    height: 100vh;
+}
+.textbox{
+    height: 25px;
+    width: 300px;
+    border: 1px solid grey;
+    border-radius: 5px;
+}
+.taskdetails{
+    text-align: center;
+    padding-top: 1px;
+    margin-left: 10px;
+   
+    
+} 
+.content{
+    display: flex;
+    justify-content: center;
+    margin-top: 50px
+}
+ .button {
+    margin-top: 18px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background-color: darkblue;
+    color: white;
+    border: none;
+    height: 40px;
+    cursor: pointer;
+    margin-right: 10px;
+    
+}
+
+.button:hover{
+    background-color: rgba(7, 61, 61, 0.555);
+    color: white;
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+.button1{
+    margin-left: 100px;
+    margin-top: 10px;
+    padding: 10px 20px;
+    border-radius: 7px;
+    background-color: darkblue;
+    color: white;
+    border: none;
+    height: 50px;
+}
+
+.button1:hover{
+    background-color: green;
+    color: white;
+    transform: scale(1.1);
+  transition: transform 0.3s ease;
+}
+.headers{
+    background-color: aliceblue;
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+    height: 70px;
+}
+.textfont{
+    font-family: "Roboto Slab", serif;
+    font-optical-sizing: auto;
+    font-weight: 100;    
+}

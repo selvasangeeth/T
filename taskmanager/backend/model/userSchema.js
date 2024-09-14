@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const userSchema = mongoose.Schema({
   UserName: {
     type: String,
@@ -12,14 +11,16 @@ const userSchema = mongoose.Schema({
   },
   tasks: [
     {
-      type: String,
-      // required:true
+      data: {
+        inputTasks: {
+          type: String,
+        },
+        date: {
+          type: Date,
+        },
+      },
     },
   ],
-  dated: {
-    type: Date,
-    default: Date.now,
-  },
 });
 
 const userDetails = mongoose.model("User", userSchema);

@@ -1,31 +1,25 @@
 const usersc = require("../model/userSchema");
 const expressAsyncHandler = require("express-async-handler");
 
-//update task to user
+//add task to user
 const getAddTask = expressAsyncHandler(async (req, res) => {
-  const { UserName, tasks } = req.body;
+  const { UserName, data } = req.body;
   const userfind = await usersc.findOne({ UserName });
   if (!userfind) {
     return res.status(201).json("User not found");
   }
-  if(tasks == ""){
-    return res.status(200).json({msg :"Task field should not be empty"});
-  }
-  if (typeof userfind.tasks == "string") {
-    userfind.tasks = [userfind.tasks];
-  }
-  if (!Array.isArray(userfind.tasks)) {
-    userfind.tasks = [];
-  }
+  const modifiedData = [...userfind.tasks, { data }];
   try {
     await usersc.updateOne(
       {
         UserName,
       },
-      { $push: { tasks: { $each: tasks } } }
+      { $set: { tasks: modifiedData } }
     );
+
     const updatedUser = await usersc.findOne({ UserName });
     res.status(200).json({ msg: "Task Added Successfully", updatedUser });
+
   } catch (err) {
     res.status(500).json({ msg: "Error in adding Task", error: err.message });
   }
@@ -43,18 +37,22 @@ const getTasks = expressAsyncHandler(async (req, res) => {
   }
 });
 
+// update tasks
 const getUpdateTask = expressAsyncHandler(async (req, res) => {
-  const { UserName, index, task } = req.body;
+  const { UserName, index, data } = req.body;
+  console.log("Updatedtask");
   const user = await usersc.findOne({ UserName: UserName });
+  console.log(user);
   if (!user) {
     return res.status(201).json({ message: "User not found" });
   } else {
-    user.tasks[index] = task;
+    user.tasks[index].data = { inputTasks: data.tasks, date: data.date };
     await user.save();
     res.status(200).json({ message: "Task updated successfully" });
   }
 });
 
+//delete tasks
 const getDeleteTask = expressAsyncHandler(async (req, res) => {
   const { UserName, index } = req.body;
   console.log(UserName);

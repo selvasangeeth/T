@@ -44,3 +44,8 @@
     margin-left: 60px;
   
 }
+.taskDetails:hover{
+    background-color: rgba(255, 0, 55, 0.801);
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}

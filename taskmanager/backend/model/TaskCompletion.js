@@ -7,8 +7,17 @@ const TaskCompletion = mongoose.Schema({
 
   task: [
     {
-      type: String,
-      required: true,
+      data:{
+        inputTasks:{
+          type: String,
+          
+        },
+       date:{
+        type: Date,
+        default: Date.now,  // set default date to current date
+      
+       }
+      }
     },
   ],
 });

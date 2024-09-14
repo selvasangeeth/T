@@ -7,7 +7,7 @@ const errorhandler = require("./middleware/errorhandler");
 
 app.use(cors()); // to use cors middleware
 app.use(express.json()); //To hava json data
-app.use("/", require("./Routes/UserLogin")); // login routes
+app.use("/", require("./Routes/UserLogin")); // for all routes
 condb(); // database connection
 app.use(errorhandler); // error handler
 
