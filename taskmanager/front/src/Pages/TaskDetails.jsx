@@ -65,22 +65,23 @@ const AddTask = () => {
   };
 
   //task completion
-  const handleCompleted = async (tasked) => {
+  const handleCompleted = async (tasked,index) => {
     const responseDel = await axios.delete("/deletetask", {
       data: {
-        task: tasked,
         UserName: UserName,
+        index : index,
       },
     });
     console.log(tasked);
+    console.log(UserName);
     // task = String(task); // Send the task as a String
     const responseAdd = await axios.post("/taskcompletion", {
       UserName: UserName,
       task: tasked,
     });
-    console.log(responseAdd.data.msg);
-    if (responseAdd.data.msg == "Congrats Task completed successfully!!") {
-      toast("Task completed successfully");
+    console.log("dnlndlgndgn",responseAdd.data.msg);
+    if (responseAdd.data.msg == "Task completed successfully") {
+      toast(responseAdd.data.msg);
     }
     setTimeout(() => {
       window.location.reload();
@@ -96,6 +97,10 @@ const AddTask = () => {
   //   nav("/");
 
   // };
+
+  const handleCalender= async () => {
+    nav("/calender", { state: { UserName: UserName } });
+  };
   return (
     <div>
       <Nav />
@@ -106,6 +111,9 @@ const AddTask = () => {
             <p className={Style.greet}>Have a Great day...!</p>
           </div>
           <div className={Style.buttonall}>
+          <button className={Style.button} onClick={handleCalender}>
+              Calender
+            </button>
             <button className={Style.button} onClick={handleCompletedTask}>
               Completed Tasks
             </button>
@@ -117,7 +125,7 @@ const AddTask = () => {
         <div className={Style.tasks}>
           <ol>
             {tasks.map((task, index) => (
-              <li className={Style.taskItem}>
+              <li key={index}className={Style.taskItem}>
                 <div className={Style.taskD}>
                   <span className={Style.taskName}>
                     {index + 1}
@@ -145,7 +153,7 @@ const AddTask = () => {
                   {"    "}
                   <button
                     className={Style.buttontask3}
-                    onClick={() => handleCompleted(task.data.inputTasks)}
+                    onClick={() => handleCompleted(task.data.inputTasks,index)}
                   >
                   Completed
                   </button>

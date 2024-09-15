@@ -3,33 +3,44 @@ const tasksc = require("../model/TaskCompletion");
 
 const getTaskCompletion = expressAsyncHandler(async (req, res) => {
   const { task, UserName } = req.body;
-  console.log("hello");
-  console.log(task);
-  const userFind = tasksc.findOne({ UserName });
-
-  const formattedDate = new Date().toISOString().split("T")[0];
+  const userFind = await tasksc.findOne({ UserName });
 
   if (!userFind) {
-    res.status(201).json({ msg: "User not found !!" });
-  }
-  // const taskset = new Set(userFind.data.inputTasks);
-  // if(taskset.has(task)){
-  //   res.status(201).json({msg:"Task already Completed !!"});
-  // }
-  else {
     const newTask = {
       data: {
         inputTasks: task,
-        date: formattedDate,
       },
     };
-    try {
-      await tasksc.updateOne({ UserName }, { $push: { task: newTask } });
 
-      res.status(200).json({ msg: "Congrats Task completed successfully!!" });
-    } catch (err) {
-      res.status(500).json({ msg: "Error in adding task" });
+    const creation = await tasksc.create({ UserName: UserName, task: newTask });
+
+    if (creation) {
+      return res.status(201).json({ msg: "Task completed successfully" });
+    } else {
+      res.status(400).json({ message: "Error completing task" });
+      return res.status(400).json({ message: "Error completing task" });
     }
+  } else {
+    // User found, check if the task already exists
+    const taskExists = userFind.task.some((t) => t.data.inputTasks === task);
+
+    if (taskExists) {
+      return res
+        .status(201)
+        .json({ message: "Task is already marked as completed" });
+    }
+  }
+  const newTask = {
+    data: {
+      inputTasks: task,
+    },
+  };
+  try {
+    await tasksc.updateOne({ UserName }, { $push: { task: newTask } });
+
+    res.status(200).json({ msg: "Task completed successfully" });
+  } catch (err) {
+    res.status(500).json({ msg: "Error in adding task" });
   }
 });
 

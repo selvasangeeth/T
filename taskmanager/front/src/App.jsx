@@ -8,6 +8,7 @@ import TaskDetails from "./Pages/TaskDetails";
 import Updatetask from "./Pages/TaskUpdate"
 import TaskCompletion from "./Pages/TaskCompletion"
 import AddTaskBack from "./Pages/AddTaskBack";
+import Calender from "./Pages/Calender";
 function App() {
   return (
     <div>
@@ -21,6 +22,7 @@ function App() {
           <Route path ="/updatetask" element={<Updatetask/>}/>
           <Route path ="/taskcompletion" element={<TaskCompletion/>}/>
           <Route path ="/addtask1" element = {<AddTaskBack/>}/>
+          <Route path ="/calender" element = {<Calender/>}/>
         </Routes>
       </BrowserRouter>
     </div>
