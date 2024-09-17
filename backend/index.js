@@ -5,10 +5,12 @@ const condb = require("../backend/Database/data");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const errorhandler = require("./middleware/errorhandler");
+require('dotenv').config();
+
 
 app.use(cors({
   credentials: true,
-  origin: "http://localhost:5173", 
+  origin: process.env.ORIGIN_URL , 
 }));  // to use cors middleware
 app.use(express.json()); //To hava json data
 app.use(cookieParser());
