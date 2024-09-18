@@ -2,6 +2,7 @@ const userDetails = require("../model/userSchema");
 const asynchandler = require("express-async-handler");
 const bcrypt = require("bcrypt");
 const jwt  = require("jsonwebtoken");
+require('dotenv').config();
 
 // Register User
 const getRegister = asynchandler(async (req, res) => {
@@ -35,7 +36,7 @@ const getUser = asynchandler(async (req, res) => {
     return res.json({ msg: "Invalid Details" });
   }
 
-  const token = jwt.sign({UserName}, "hello", { expiresIn: "1h" });
+  const token = jwt.sign({UserName}, process.env.SECRET_KEY, { expiresIn: "1h" });
   res.cookie("jwt", token, { httpOnly: true, maxAge: 3600000 });
   return res.json({ msg: "LoginSuccess", UserName: UserName });
 });
