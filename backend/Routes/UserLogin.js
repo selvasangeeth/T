@@ -5,7 +5,7 @@ const authMiddleware = require("../middleware/auth");
 const { getUser, getRegister} = require("../Controller/userController");
 const{getAddTask, getTasks,getUpdateTask,getDeleteTask} = require("../Controller/AddTask");
 const {getTaskCompletion,getCompletedTasks,getremovedTask} = require("../Controller/TaskCompletion");
-const {authen,logout} = require("../Controller/CheckAuth");
+const {authen,logout} = require("../Controller/checkAuth");
 
 
 router.post("/login", getUser);
