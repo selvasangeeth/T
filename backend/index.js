@@ -9,6 +9,8 @@ require('dotenv').config();
 
 
 app.use(cors({
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
   credentials: true,
   origin: process.env.ORIGIN_URL , 
 }));  // to use cors middleware
