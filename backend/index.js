@@ -11,7 +11,7 @@ require('dotenv').config();
 app.use(cors({
   credentials: true,
   origin: process.env.ORIGIN_URL , 
-})
+})); 
 app.use(express.json()); //To hava json data
 app.use(cookieParser());
 app.use("/", require("./Routes/UserLogin")); // for all routes
