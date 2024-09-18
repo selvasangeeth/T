@@ -8,14 +8,10 @@ const errorhandler = require("./middleware/errorhandler");
 require('dotenv').config();
 
 
-const corsOptions={
-  origin: process.env.ORIGIN_URL || '*',
-  methods : "GET,PUT,POST,DELETE,PATCH,OPTIONS"
+app.use(cors({
   credentials: true,
-  allowedHeaders:'Origin,X-Requested-With,Content-Type,Accept,Authorization'
-}; 
-app.use(cors(corsOptions));
-app.options('*',cors(corsOptions));
+  origin: process.env.ORIGIN_URL , 
+})
 app.use(express.json()); //To hava json data
 app.use(cookieParser());
 app.use("/", require("./Routes/UserLogin")); // for all routes
