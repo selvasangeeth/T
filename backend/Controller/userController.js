@@ -37,7 +37,7 @@ const getUser = asynchandler(async (req, res) => {
   }
 
   const token = jwt.sign({UserName}, process.env.SECRET_KEY, { expiresIn: "1h" });
-  res.cookie("jwt", token, { httpOnly: true,secure: true, maxAge: 3600000 });
+  res.cookie("jwt", token, { httpOnly: true,secure: true,sameSite: 'None', maxAge: 3600000 });
   return res.json({ msg: "LoginSuccess", UserName: UserName });
 });
 
