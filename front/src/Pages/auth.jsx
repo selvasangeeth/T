@@ -14,7 +14,8 @@ const useAuth = () => {
         setIsAuthenticated(response.data.isAuthenticated);
       } catch (error) {
         if (error.response && error.response.status === 401) {
-                 console.log("ERROR OCCURRED ")
+                 localStorage.removeItem("isLoginSuccess");
+                 window.location.href = "/";
         } else {
           console.error("An error occurred:", error.message);
         }
