@@ -9,10 +9,11 @@ require('dotenv').config();
 
 
 app.use(cors({
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
+  origin: process.env.ORIGIN_URL || '*',
+  methods : "GET,PUT,POST,DELETE,PATCH,OPTIONS"
   credentials: true,
-  origin: process.env.ORIGIN_URL , 
+  allowedHeaders:'Origin,X-Requested-With,Content-Type,Accept,Authorization'
+
 }));  // to use cors middleware
 app.use(express.json()); //To hava json data
 app.use(cookieParser());
