@@ -9,9 +9,11 @@ import { Link } from "react-router-dom";
 const Register = () => {
   const [UserName, setUserName] = useState("");
   const [Password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.post(
         "/register",
@@ -25,12 +27,17 @@ const Register = () => {
           },
         }
       );
-      toast(response.data.msg);
-      const data = response.data;
+      setLoading(false);
+      if (response.data.msg === "User created successfully") {
+        toast(response.data.msg);
+        setTimeout(() => (window.location.href = "/"), 1800);
+      }
+      const data = response.data.msg;
       console.log(data);
       setUserName("");
       setPassword("");
     } catch (error) {
+      setLoading(false);
       console.log(error);
     }
   };
@@ -39,37 +46,41 @@ const Register = () => {
     <div>
       <div className={Style.backgr}>
         <Nav />
-        <div className={Style.registerall}>
-          <div className={Style.conten}>
-            <form onSubmit={handleSubmit}>
-              <h1 className={Style.head}>Register</h1>
-              <p>UserName</p>
-              <input
-                className={Style.textbox}
-                type="text"
-                placeholder="UserName"
-                value={UserName}
-                onChange={(e) => setUserName(e.target.value)}
-              />
-              <p>Password</p>
-              <input
-                className={Style.textbox}
-                type="password"
-                placeholder="Password"
-                value={Password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <br />
-              <br />
-              <button className={Style.button}>Submit</button>
-              <br />
-              <Link to="/" className={Style.login}>
-                Login
-              </Link>
-            </form>
-            <ToastContainer />
+        {loading ? (
+          <div className={Style.loader}></div>
+        ) : (
+          <div className={Style.registerall}>
+            <div className={Style.conten}>
+              <form onSubmit={handleSubmit}>
+                <h1 className={Style.head}>Register</h1>
+                <p>UserName</p>
+                <input
+                  className={Style.textbox}
+                  type="text"
+                  placeholder="UserName"
+                  value={UserName}
+                  onChange={(e) => setUserName(e.target.value)}
+                />
+                <p>Password</p>
+                <input
+                  className={Style.textbox}
+                  type="password"
+                  placeholder="Password"
+                  value={Password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <br />
+                <br />
+                <button className={Style.button}>Submit</button>
+                <br />
+                <Link to="/" className={Style.login}>
+                  Login
+                </Link>
+              </form>
+            </div>
           </div>
-        </div>
+        )};
+        <ToastContainer />
       </div>
     </div>
   );

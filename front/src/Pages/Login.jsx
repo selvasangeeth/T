@@ -9,10 +9,12 @@ import 'react-toastify/ReactToastify.css'
 const Login = () => {
   const [UserName, setUserName] = useState("");
   const [Password, setPassword] = useState("");
+  const[loading ,setLoading] = useState(false);
   const nav = useNavigate();
 
   const handleSubmit = async (e) => { 
     e.preventDefault();
+    setLoading(true);
     try {
       console.log(UserName, Password);
       const response = await axios.post(
@@ -27,14 +29,17 @@ const Login = () => {
 
       if(response.data.msg === "LoginSuccess") {
         localStorage.setItem("isLoginSuccess", true);
+        setLoading(false);
         nav("/addtask",{state:{UserName}});
       } 
       else 
       {  
+        setLoading(false);
        toast(response.data.msg);
       } 
   }catch (err) 
     {
+      setLoading(false);
       console.error(err);
     }
   };
@@ -43,6 +48,8 @@ const Login = () => {
     <div>
       <div className={Style.backgr}>
       <Nav />
+      {
+      loading ? (<div className={Style.loader}></div>):(
       <div className={Style.loginall}>
         <div className={Style.conten}>
         <form onSubmit={handleSubmit}>
@@ -71,10 +78,10 @@ const Login = () => {
         </form>
         </div>
         <footer>
-
         </footer>
-        <ToastContainer />
       </div>
+        )};
+       <ToastContainer />
       </div>
     </div>
   );

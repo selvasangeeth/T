@@ -12,12 +12,14 @@ const AddTask = () => {
   const [tasks, setTasks] = useState([]);
   const [inputTasks, setInputTasks] = useState("");
   const { UserName } = useLocation().state || {};
+  const [loading, setLoading] = useState(false);
   const { isAuthenticated } = useAuth();
 
   const nav = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         const response = await axios.get(
           "/gettasks",
@@ -32,6 +34,8 @@ const AddTask = () => {
         if (error.response && error.response.status === 401) {
           console.error("An error occurred:", error.message);
         }
+      } finally {
+        setLoading(false);
       }
     };
     fetchData();
@@ -49,6 +53,7 @@ const AddTask = () => {
 
   // delete task
   const handleDelete = async (task, index) => {
+    setLoading(true);
     try {
       const response = await axios.delete("/deletetask", {
         data: {
@@ -64,11 +69,14 @@ const AddTask = () => {
       }, 1500);
     } catch (err) {
       console.log(err);
+    } finally {
+      setLoading(false);
     }
   };
 
   //task completion
   const handleCompleted = async (tasked, index) => {
+    setLoading(true);
     const responseDel = await axios.delete("/deletetask", {
       data: {
         UserName: UserName,
@@ -82,6 +90,7 @@ const AddTask = () => {
       UserName: UserName,
       task: tasked,
     });
+    setLoading(false);
     if (responseAdd.data.msg == "Task completed successfully") {
       toast(responseAdd.data.msg);
     }
@@ -107,64 +116,72 @@ const AddTask = () => {
     <div>
       <Nav />
       <div className={Style.background}>
-        <div className={Style.welcomeContainer}>
-          <div className={Style.welcomeText}>
-            <h1>Welcome "{UserName}"</h1>
-            <p className={Style.greet}>Have a Great day...!</p>
-          </div>
-          <div className={Style.buttonall}>
-            <button className={Style.button} onClick={handleCalender}>
-              Calender
-            </button>
-            <button className={Style.button} onClick={handleCompletedTask}>
-              Completed Tasks
-            </button>
-            <button className={Style.button} onClick={handleAddTask}>
-              Add New Task
-            </button>
-          </div>
-        </div>
-        <div className={Style.tasks}>
-          <ol>
-            {tasks.map((task, index) => (
-              <li key={index} className={Style.taskItem}>
-                <div className={Style.taskD}>
-                  <span className={Style.taskName}>
-                    {index + 1}
-                    {". "}
-                    {task.data.inputTasks}
-                  </span>
-                  <span className={Style.dated}>
-                    {"Due on "}
-                    {task.data.date.slice(0, 10)}
-                  </span>
-                </div>
-                <div className={Style.buttontaskall}>
-                  <button
-                    className={Style.buttontask1}
-                    onClick={() => handleUpdate(task.data, index, UserName)}
-                  >
-                    Update
-                  </button>{" "}
-                  <button
-                    className={Style.buttontask2}
-                    onClick={() => handleDelete(task, index)}
-                  >
-                    Delete
-                  </button>
-                  {"    "}
-                  <button
-                    className={Style.buttontask3}
-                    onClick={() => handleCompleted(task.data.inputTasks, index)}
-                  >
-                    Completed
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ol>
-          <ToastContainer />
-        </div>
+        {loading ? (
+          <div className={Style.loader}></div>
+        ) : (
+          <>
+            <div className={Style.welcomeContainer}>
+              <div className={Style.welcomeText}>
+                <h1>Welcome "{UserName}"</h1>
+                <p className={Style.greet}>Have a Great day...!</p>
+              </div>
+              <div className={Style.buttonall}>
+                <button className={Style.button} onClick={handleCalender}>
+                  Calender
+                </button>
+                <button className={Style.button} onClick={handleCompletedTask}>
+                  Completed Tasks
+                </button>
+                <button className={Style.button} onClick={handleAddTask}>
+                  Add New Task
+                </button>
+              </div>
+            </div>
+            <div className={Style.tasks}>
+              <ol>
+                {tasks.map((task, index) => (
+                  <li key={index} className={Style.taskItem}>
+                    <div className={Style.taskD}>
+                      <span className={Style.taskName}>
+                        {index + 1}
+                        {". "}
+                        {task.data.inputTasks}
+                      </span>
+                      <span className={Style.dated}>
+                        {"Due on "}
+                        {task.data.date.slice(0, 10)}
+                      </span>
+                    </div>
+                    <div className={Style.buttontaskall}>
+                      <button
+                        className={Style.buttontask1}
+                        onClick={() => handleUpdate(task.data, index, UserName)}
+                      >
+                        Update
+                      </button>{" "}
+                      <button
+                        className={Style.buttontask2}
+                        onClick={() => handleDelete(task, index)}
+                      >
+                        Delete
+                      </button>
+                      {"    "}
+                      <button
+                        className={Style.buttontask3}
+                        onClick={() =>
+                          handleCompleted(task.data.inputTasks, index)
+                        }
+                      >
+                        Completed
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </>
+        )}
+        <ToastContainer />
       </div>
     </div>
   );
